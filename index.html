@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de OpenStreetMap</title>
+    <!-- Incluir el estilo de Leaflet.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <style>
+        #map { /* Estilo para ajustar el tamaño del mapa */
+            width: 100%; 
+            height: 600px; /* Puedes ajustar la altura según tus preferencias */
+        }
+    </style>
+</head>
+<body>
+    <h1>Mapa de OpenStreetMap de Florencia, Caquetá</h1>
+    <!-- Aquí se crea el contenedor para el mapa -->
+    <div id="map"></div>
+    
+    <!-- Incluir la biblioteca Leaflet.js -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Inicializar el mapa con Leaflet.js
+        var map = L.map('map').setView([1.6141, -75.6119], 15); // Se establece el centro y el nivel de zoom
+
+        // Agregar capa de OpenStreetMap al mapa
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Definir las coordenadas de los vértices del polígono de la Plaza Santander
+        var plazaSantanderCoords = [
+            [1.6135, -75.6143], // Esquina superior izquierda
+            [1.6135, -75.6138], // Esquina superior derecha
+            [1.6131, -75.6138], // Esquina inferior derecha
+            [1.6131, -75.6143], // Esquina inferior izquierda
+            [1.6135, -75.6143]  // Volver al inicio (cerrar el polígono)
+        ];
+
+        // Agregar el polígono que delimita la Plaza Santander al mapa
+        var plazaSantanderPolygon = L.polygon(plazaSantanderCoords, {color: 'red'}).addTo(map);
+
+        // Agregar marcador en la Plaza Santander con popup
+        var alcaldiaMarker = L.marker([1.6148693, -75.61386]).addTo(map)
+            .bindPopup('<b>Alcaldía de Florencia</b><br>Florencia, Caquetá');
+
+        var plazaSantanderMarker = L.marker([1.6149487, -75.6134067]).addTo(map)
+            .bindPopup('<b>Plaza Santander</b><br>Florencia, Caquetá');
+
+        var uniAmazoniaMarker = L.marker([1.620245619436067, -75.60492559630485]).addTo(map)
+            .bindPopup('<b>Universidad de la Amazonia</b><br>Florencia, Caquetá'); // Mensaje emergente al hacer clic en el marcador
+         // Agregar círculo alrededor de la Alcaldía con radio de 500 metros
+        var circle = L.circle([1.6136, -75.6140], {
+            color: 'red', // Color del borde del círculo
+            fillColor: '#f03', // Color de relleno del círculo
+            fillOpacity: 0.5, // Opacidad del relleno
+            radius: 500 // Radio en metros
+        }).addTo(map);
+        
+        var pointA = new L.LatLng(1.6277752309762257, -75.59714548892053); 
+        var pointB = new L.LatLng(1.620245619436067, -75.60492559630485); 
+        var latlngs = [pointA, pointB];
+        var polyline = L.polyline(
+        latlngs, {color: 'red'}
+        )
+        .addTo(map)
+        .bindPopup ('Avda. Juan Carlos I');
+   
+   </script>
+</body>
+</html>
